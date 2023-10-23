@@ -1,0 +1,75 @@
+﻿@model List<UsuarioModel>;
+
+@{
+    ViewData["Title"] = "Lista de Usuario";
+}
+
+<article class="text-center">
+
+    <div class="d-grid gap-2 d-md-flex justyfy-content-md-start mb-4">
+        <a asp-action="Criar" asp-asp-controller="Contato" role="button" class="btn btn-info">Adicionar novo usuário</a>
+    </div>
+
+    @if (TempData["MensagemSucesso"] != null)
+    {
+        <div class="alert alert-success" role="alert">
+            <button type="button" class="btn btn-danger btn-sm close-alert" arial-label="close">x</button>
+            @TempData["MensagemSucesso"]
+        </div>
+    }
+    
+    @if (TempData["MensagemErro"] != null)
+    {
+        <div class="alert alert-danger" role="alert">
+            <button type="button" class="btn btn-danger btn-sm close-alert" arial-label="close">x</button>
+            @TempData["MensagemErro"]
+        </div>
+        
+    }
+
+    <h1>
+        Lista de usuário!
+    </h1>
+
+    <table class="table" id="usuarios-table">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Nome</th>
+                <th scope="col">Login</th>
+                <th scope="col">E-mail</th>
+                <th scope="col">Perfil</th>
+                <th scope="col">Data de cadastro</th>
+                <th scope="col"></th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model != null && Model.Any()){ 
+                foreach (var usuario in Model)
+                {
+                <tr>
+                        <th scope="row">@usuario.Id</th>
+                        <td>@usuario.Name</td>
+                        <td>@usuario.Login</td>
+                        <td>@usuario.Email</td>
+                        <td>@usuario.Perfil</td>
+                        <td>@usuario.DataCadastro</td>
+                    <td>
+                        <div class="btn-group" role="group">
+                                <a role="button" class="btn btn-success" asp-route-id="@usuario.Id" asp-controller="Usuario" asp-action="Editar">Editar</a>
+                                <a role="button" class="btn btn-danger" asp-route-id="@usuario.Id" asp-controller="Usuario" asp-action="ApagarConfirmacao">Apagar</a>
+                        </div>
+                    </td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr class="odd">
+                    <td colspan="6" valign="top">Nenhum usuário encontrado!!</td>
+                </tr>
+            }
+            
+        </tbody>
+    </table>
+</article>

@@ -1,0 +1,46 @@
+﻿@using ControleDeContatos.Enums;
+@model UsuarioModel;
+
+@{
+    ViewData["Title"] = "Editar contato";
+}
+
+<article>
+
+    <h1 class="text-center">
+        Editar usuario
+    </h1>
+
+    <form asp-controller="usuario" asp-action="Alterar">
+
+        <input type="hidden" asp-for="Id" />
+        <div class="mb-3">
+            <label for="nome" class="form-label">Nome:</label>
+            <input type="text" asp-for="Name" class="form-control" placeholder="Digite o nome do contato">
+            @Html.ValidationMessageFor(x => x.Name)
+        </div>
+        <div class="mb-3">
+            <label for="email" class="form-label">E-mail:</label>
+            <input type="email" asp-for="Email" class="form-control" placeholder="Digite o e-mail do contato">
+            @Html.ValidationMessageFor(x => x.Email)
+        </div>
+        <div class="mb-3">
+            <label for="celular" class="form-label">Login:</label>
+            <input type="string" asp-for="Login" class="form-control" placeholder="Digite o celular do contato">
+            @Html.ValidationMessageFor(x => x.Login)
+        </div>
+        <div class="mb-3">
+            <label for="celular" class="form-label">Perfil:</label>
+            <select class="form-control" asp-for="Perfil">
+                <option value="">Selecione</option>
+                <option value="@PerfilEnum.Admin">Administrador</option>
+                <option value="@PerfilEnum.Padrao">Padrão</option>
+            </select>
+            @Html.ValidationMessageFor(x => x.Perfil)
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-block">Alterar</button>
+        <a class="btn btn-secondary  btn-block" asp-controller="usuario" asp-action="index" role="button">Voltar</a>
+    </form>
+
+</article>
