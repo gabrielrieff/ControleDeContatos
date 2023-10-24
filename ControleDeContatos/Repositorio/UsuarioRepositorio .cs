@@ -1,6 +1,7 @@
 ﻿using ControleDeContatos.Data;
 using ControleDeContatos.Helpers;
 using ControleDeContatos.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,7 +29,9 @@ namespace ControleDeContatos.Repositorio
 
         public List<UsuarioModel> BuscarUsuarios()
         {
-            return _dataContext.Usuarios.ToList();
+            return _dataContext.Usuarios
+                .Include(x => x.Contatos)
+                .ToList();
         }
 
         public UsuarioModel Adicionar(UsuarioModel usuario)

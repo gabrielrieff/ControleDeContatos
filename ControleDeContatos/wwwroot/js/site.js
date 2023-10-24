@@ -41,4 +41,21 @@ function getDataTable(id){
 $(document).ready(function () {
     getDataTable('#contatos-table');
     getDataTable('#usuarios-table');
+
+
+    $('.btn-total-contatos').on("click", function () {
+
+        var usuarioId = $(this).data("usuario-id");
+
+        $.ajax({
+            type: 'GET',
+            url: `/Usuario/ListarContatosPorUsuarioId/${usuarioId}`,
+            success: function (result) {
+                $("#listaContatosUsuario").html(result);
+                $('#modal-contatos-usuario').modal()
+                getDataTable('#contatos-table-usuario');
+            }
+        });
+
+    })
 })

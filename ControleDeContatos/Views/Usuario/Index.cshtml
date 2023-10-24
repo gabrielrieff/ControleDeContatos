@@ -39,6 +39,7 @@
                 <th scope="col">Login</th>
                 <th scope="col">E-mail</th>
                 <th scope="col">Perfil</th>
+                <th scope="col">Soma de contatos</th>
                 <th scope="col">Data de cadastro</th>
                 <th scope="col"></th>
             </tr>
@@ -53,6 +54,11 @@
                         <td>@usuario.Login</td>
                         <td>@usuario.Email</td>
                         <td>@usuario.Perfil</td>
+                        <td>
+                            <a href="javascript:" data-usuario-id="@usuario.Id" class="btn btn-success btn-sm btn-total-contatos">
+                                @(usuario.Contatos != null && usuario.Contatos.Any() ? usuario.Contatos.Count() : 0)
+                            </a>
+                        </td>
                         <td>@usuario.DataCadastro</td>
                     <td>
                         <div class="btn-group" role="group">
@@ -72,4 +78,25 @@
             
         </tbody>
     </table>
+
+
+
+    <div id="modal-contatos-usuario" class="modal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Lista de contatos</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div id="listaContatosUsuario">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </article>
