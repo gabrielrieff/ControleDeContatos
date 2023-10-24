@@ -55,9 +55,9 @@ namespace ControleDeContatos.Repositorio
             return contatoDb;
         }
 
-        public List<ContatoModel> BuscarContatos()
+        public List<ContatoModel> BuscarContatos(int UsuarioId)
         {
-            return _dataContext.Contatos.ToList();
+            return _dataContext.Contatos.Where(x => x.UsuarioId == UsuarioId).ToList();
         }
 
         public ContatoModel ListarPorId(int id)

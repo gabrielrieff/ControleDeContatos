@@ -1,6 +1,7 @@
 ﻿using ControleDeContatos.Enums;
 using ControleDeContatos.Helpers;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace ControleDeContatos.Models
@@ -29,6 +30,8 @@ namespace ControleDeContatos.Models
 
         public DateTime? DataAtualizacao { get; set; }
 
+        public virtual List<ContatoModel> Contatos { get; set; }
+
         public bool PasswordValid(string password)
         {
             return Password == password.GerarHash();
@@ -45,6 +48,11 @@ namespace ControleDeContatos.Models
             Password = novaSenha.GerarHash();
 
             return novaSenha;
+        }
+
+        public void setNewPassword(string novaSenha)
+        {
+            Password = novaSenha.GerarHash();
         }
     }
 }

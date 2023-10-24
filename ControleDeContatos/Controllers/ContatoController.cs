@@ -1,4 +1,5 @@
-﻿using ControleDeContatos.Models;
+﻿using ControleDeContatos.Helpers;
+using ControleDeContatos.Models;
 using ControleDeContatos.Repositorio;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
@@ -8,15 +9,19 @@ namespace ControleDeContatos.Controllers
     public class ContatoController : Controller
     {
         private readonly IContatoRepositorio _contatoRepositorio;
+        private readonly ISession _session;
 
-        public ContatoController(IContatoRepositorio contatoRepositorio)
+        public ContatoController(IContatoRepositorio contatoRepositorio, ISession session)
         {
             _contatoRepositorio = contatoRepositorio;
+            _session = session;
         }
         //Views Controller
         public IActionResult Index()
         {
-            List<ContatoModel> contatos = _contatoRepositorio.BuscarContatos();
+            UsuarioModel usuarioLogado = _session.SearchSessionUser();
+            List<ContatoModel> contatos = _contatoRepositorio.BuscarContatos(usuarioLogado.Id);
+
             return View(contatos);
         }
 
@@ -46,10 +51,16 @@ namespace ControleDeContatos.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    _contatoRepositorio.Adicionar(contato);
+                    UsuarioModel usuarioLogado = _session.SearchSessionUser();
+
+                    contato.UsuarioId = usuarioLogado.Id;
+                    contato = _contatoRepositorio.Adicionar(contato);
+
                     TempData["MensagemSucesso"] = "Contato cadastrado com sucesso!🔥";
                     return RedirectToAction("Index");
                 }
+
+                return View(contato);
 
             }
             catch (System.Exception error)
@@ -59,9 +70,6 @@ namespace ControleDeContatos.Controllers
 
                 throw;
             }
-
-            return View(contato);
-
         }
 
         [HttpPost]
@@ -72,10 +80,15 @@ namespace ControleDeContatos.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    _contatoRepositorio.Atualizar(contato);
+                    UsuarioModel usuarioLogado = _session.SearchSessionUser();
+                    contato.UsuarioId = usuarioLogado.Id;
+
+                    contato = _contatoRepositorio.Atualizar(contato);
                     TempData["MensagemSucesso"] = "Contato alterado com sucesso!🔥";
                     return RedirectToAction("Index");
                 }
+
+                return View("Editar", contato);
 
             }
             catch (System.Exception error)
@@ -86,7 +99,6 @@ namespace ControleDeContatos.Controllers
                 throw;
             }
 
-            return View("Editar", contato);
         }
 
         [HttpGet]
